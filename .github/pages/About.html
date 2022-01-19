@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="ISO-8859-1">
+<title>wap.sgh90 web</title>
+</head>
+<body>
+<h1> About </h1>
+<p> This page is about us.</p>
+ <h2> The route</h2>
+ <div>
+ <p> Make a route , to travel by car, train and bicycle, in between two points, as your choice.</p>
+ <p> Example: Novorossijsk - to - Astrachan.</p>
+ </div>
+   <div> 
+<ul>
+  <li><a href="Index.html">Home</a></li>
+  <li><a href="Tools.html">Tools</a></li>
+  <li><a href="Contact.html">Contact</a></li> 
+</ul>
+ </div>
+  <div>
+     <iframe width="500" height="400" frameborder="1" src="https://www.bing.com/maps/embed?h=400&w=500&cp=45.78249181414361~44.50622351445611&lvl=5.402190330605786&typ=d&sty=r&src=SHELL&FORM=MBEDV8" scrolling="no">
+     </iframe>
+     <div style="white-space: nowrap; text-align: center; width: 500px; padding: 6px 0;">
+        <a id="largeMapLink" target="_blank" href="https://www.bing.com/maps?cp=45.78249181414361~44.50622351445611&amp;sty=r&amp;lvl=5.402190330605786&amp;FORM=MBEDLD">View the map.</a>
+        <a id="dirMapLink" target="_blank" href="https://www.bing.com/maps/directions?cp=45.78249181414361~44.50622351445611&amp;sty=r&amp;lvl=5.402190330605786&amp;rtp=~pos.45.78249181414361_44.50622351445611____&amp;FORM=MBEDLD">The travel map.</a>
+    </div>
+</div>
+<div>
+<script type='text/javascript'>
+    var map;
+
+    function GetMap()
+    {
+        map = new Microsoft.Maps.Map('#myMap', {});
+
+        //Define a custom overlay class that inherts from the CustomOverlay class.
+        PanningOverlay.prototype = new Microsoft.Maps.CustomOverlay({ beneathLabels : false });
+
+        //Define a constructor for the custom overlay class.
+        function PanningOverlay() {
+            this.panUpBtn = document.createElement('input');
+            this.panUpBtn.type = 'button';
+            this.panUpBtn.value = '˄';
+            this.panUpBtn.onclick = function () {
+                panMap('up');
+            };
+
+            this.panDownBtn = document.createElement('input');
+            this.panDownBtn.type = 'button';
+            this.panDownBtn.value = '˅';
+            this.panDownBtn.onclick = function () {
+                panMap('down');
+            };
+
+            this.panLeftBtn = document.createElement('input');
+            this.panLeftBtn.type = 'button';
+            this.panLeftBtn.value = '<';
+            this.panLeftBtn.onclick = function () {
+                panMap('left');
+            };
+
+            this.panRightBtn = document.createElement('input');
+            this.panRightBtn.type = 'button';
+            this.panRightBtn.value = '>';
+            this.panRightBtn.onclick = function () {
+                panMap('right');
+            };
+        }
+
+        //Implement the onAdd method to set up DOM elements, and use setHtmlElement to bind it with the overlay.
+        PanningOverlay.prototype.onAdd = function () {
+            //Create a div that will hold pan buttons.
+            var container = document.createElement('div');
+            container.appendChild(this.panUpBtn);
+            container.appendChild(this.panDownBtn);
+            container.appendChild(this.panLeftBtn);
+            container.appendChild(this.panRightBtn);
+            container.style.position = 'absolute';
+            container.style.top = '10px';
+            container.style.left = '10px';
+            this.setHtmlElement(container);
+        };
+
+        //Implement the new custom overlay class.
+        var overlay = new PanningOverlay();
+
+        //Add the custom overlay to the map.
+        map.layers.insert(overlay);
+    }
+
+    function panMap(dir) {
+        var dx = 0, dy = 0;
+        switch (dir) {
+            case 'up':
+                dy = -30;
+                break;
+            case 'down':
+                dy = 30;
+                break;
+            case 'left':
+                dx = -30;
+                break;
+            case 'right':
+                dx = 30;
+                break;
+        }
+
+        var cp = map.tryLocationToPixel(map.getCenter());
+        cp.x += dx;
+        cp.y += dy;
+
+        map.setView({ center: map.tryPixelToLocation(cp) });
+    }
+    </script>
+</div>
+</body>
+</html>
